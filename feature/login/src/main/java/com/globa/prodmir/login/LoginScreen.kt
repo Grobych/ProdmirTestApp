@@ -1,9 +1,18 @@
 package com.globa.prodmir.login
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun LoginScreen() {
-    Text(text = "Login screen")
+fun LoginScreen(
+    viewModel: LoginScreenViewModel = hiltViewModel()
+) {
+    val uiState = viewModel.uiState.collectAsState()
+
+    when(val state = uiState.value) {
+        is LoginScreenUiState.Error -> TODO()
+        is LoginScreenUiState.PhoneNumber -> TODO()
+        is LoginScreenUiState.SMS -> TODO()
+    }
 }
