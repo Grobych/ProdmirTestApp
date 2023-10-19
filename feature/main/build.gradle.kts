@@ -1,11 +1,12 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
+
 android {
-    namespace = "com.globa.prodmir.common"
+    namespace = "com.globa.prodmir.main"
     compileSdk = 34
 
     defaultConfig {
@@ -40,6 +41,18 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.compose.material3)
+
+    implementation (libs.lifecycle.viewmodel)
+    val composeBom = platform(libs.androidx.compose.bom)
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+    implementation (libs.compose.material3)
+
+    implementation (libs.bundles.navigation)
+
+    implementation (libs.compose.ui.tooling.preview)
+    debugImplementation (libs.compose.ui.tooling)
+
+    implementation(libs.hilt.core)
+    kapt(libs.hilt.compiler)
 }

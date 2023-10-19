@@ -17,3 +17,4 @@ rootProject.name = "Prodmir"
 include(":app")
 include(":common")
 include(":feature:login")
+include(":feature:main")
