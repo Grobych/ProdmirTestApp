@@ -35,11 +35,12 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.toString()
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
     }
 }
 
 dependencies {
+    implementation(project(path = ":common"))
 
     implementation (libs.lifecycle.viewmodel)
     val composeBom = platform(libs.androidx.compose.bom)
@@ -52,4 +53,6 @@ dependencies {
 
     implementation(libs.hilt.core)
     kapt(libs.hilt.compiler)
+    implementation(libs.bundles.navigation)
+
 }

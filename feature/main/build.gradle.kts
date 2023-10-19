@@ -36,7 +36,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.toString()
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
     }
 }
 
@@ -53,4 +53,6 @@ dependencies {
 
     implementation(libs.hilt.core)
     kapt(libs.hilt.compiler)
+    implementation(libs.bundles.navigation)
+
 }
