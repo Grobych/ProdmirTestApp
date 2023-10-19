@@ -47,8 +47,6 @@ dependencies {
     androidTestImplementation(composeBom)
     implementation (libs.compose.material3)
 
-    implementation (libs.bundles.navigation)
-
     implementation (libs.compose.ui.tooling.preview)
     debugImplementation (libs.compose.ui.tooling)
 
