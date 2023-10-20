@@ -65,7 +65,8 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun onNumberChange(number: String) {
-        phoneNumber.value = number
+        if (number.length <= 9)
+            phoneNumber.value = number
     }
 
     fun onAgreementLinkClick() {
