@@ -160,7 +160,7 @@ fun PhoneNumberComposable(
             }
         }
 
-        if (isAgreementAccepted && phoneNumber.isNotEmpty()) {
+        if (isAgreementAccepted && phoneNumber.length == 9) {
             Button(
                 onClick = { onContinueButtonClick() },
                 modifier = Modifier.fillMaxWidth(),
