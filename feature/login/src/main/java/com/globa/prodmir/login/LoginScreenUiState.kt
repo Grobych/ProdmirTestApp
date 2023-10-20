@@ -9,7 +9,9 @@ sealed class LoginScreenUiState {
         val phoneNumber: String = "",
         val isAgreementRead: Boolean = false,
         val isAgreementAccept: Boolean = false,
-        val isWrongNumber: Boolean = false): LoginScreenUiState() //input error
+        val isWrongNumber: Boolean = false,
+        val showAgreementDialog: Boolean = false
+    ): LoginScreenUiState() //input error
     data class SMS(
         val code: String = "",
         val phoneNumber: String,
