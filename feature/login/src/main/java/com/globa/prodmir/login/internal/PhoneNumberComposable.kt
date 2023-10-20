@@ -109,7 +109,11 @@ fun PhoneNumberComposable(
                         text = "+375 (XX) XXX-XX-XX",
                         color = MaterialTheme.colorScheme.surfaceVariant
                     )
-                }//TODO: add phone number transformation
+                },
+                visualTransformation = PhoneVisualTransformation(
+                    mask = "+375 (00) 000-00-00",
+                    maskNumber = '0'
+                )
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -205,10 +209,10 @@ fun PhoneNumberComposablePreview() {
             modifier = Modifier.size(width = 360.dp, height = 480.dp)
         ) {
             PhoneNumberComposable(
-                phoneNumber = "375447479953",
+                phoneNumber = "447479953",
                 isPhoneNumberError = false,
-                isAgreementRead = false,
-                isAgreementAccepted = false,
+                isAgreementRead = true,
+                isAgreementAccepted = true,
                 onContinueButtonClick = {},
                 onAgreementCheckButtonClick = {},
                 onTextFieldChange = {},
