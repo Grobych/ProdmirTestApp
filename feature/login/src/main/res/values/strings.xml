@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="return_text">Return</string>
+    <string name="type_phone_number">Type phone number:</string>
+    <string name="accept">Accept</string>
+    <string name="continue_text">Continue</string>
 </resources>
