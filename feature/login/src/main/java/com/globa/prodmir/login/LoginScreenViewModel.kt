@@ -61,7 +61,7 @@ class LoginScreenViewModel @Inject constructor(
             if (state is LoginScreenUiState.PhoneNumber) {
                 _uiState.update { state.copy(isAgreementAccept = isAccept) }
             }
-        }
+        }.launchIn(viewModelScope)
     }
 
     fun onNumberChange(number: String) {
