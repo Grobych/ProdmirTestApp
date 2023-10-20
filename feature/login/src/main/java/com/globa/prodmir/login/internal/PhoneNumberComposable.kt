@@ -97,7 +97,7 @@ fun PhoneNumberComposable(
                     if (phoneNumber.isNotEmpty())
                         Icon(
                             painter = painterResource(id = R.drawable.ic_close),
-                            contentDescription = "Close",
+                            contentDescription = "Clear",
                             modifier = Modifier
                                 .size(24.dp)
                                 .clickable { onTextFieldChange("") }
@@ -128,8 +128,8 @@ fun PhoneNumberComposable(
                     },
                     enabled = isAgreementRead
                 )
-                val tintColor = MaterialTheme.colorScheme.surfaceTint
-                val baseColor = MaterialTheme.colorScheme.onSurface
+                val tintColor = MaterialTheme.colorScheme.primary
+                val baseColor = MaterialTheme.colorScheme.surfaceVariant
                 val text = buildAnnotatedString {
                     withStyle(
                         style = SpanStyle(

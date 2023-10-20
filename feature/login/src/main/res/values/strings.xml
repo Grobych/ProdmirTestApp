@@ -4,4 +4,9 @@
     <string name="type_phone_number">Type phone number:</string>
     <string name="accept">Accept</string>
     <string name="continue_text">Continue</string>
+    <string name="sms_code">SMS code:</string>
+    <string name="sms_timeout_1">"It will take "</string>
+    <string name="sms_timeout_2">" seconds to send a new code "</string>
+    <string name="send_to_the_number">"Send to the number: "</string>
+    <string name="send_new_code">Send new code</string>
 </resources>
