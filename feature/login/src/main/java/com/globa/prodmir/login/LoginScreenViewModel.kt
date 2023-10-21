@@ -3,11 +3,13 @@ package com.globa.prodmir.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,12 +25,14 @@ class LoginScreenViewModel @Inject constructor(
     private val isAgreementAccept = MutableStateFlow(false)
 
     private val smsCode = MutableStateFlow("")
+    private val timeout = MutableStateFlow(60)
     init {
         phoneNumberInit()
         showAgreementInit()
         isAgreementReadInit()
         isAgreementAcceptInit()
         smsCodeInit()
+        timeoutInit()
     }
     private fun phoneNumberInit() {
         //TODO: add input check??
@@ -76,6 +80,15 @@ class LoginScreenViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun timeoutInit() {
+        timeout.onEach { timeout ->
+            val state = uiState.value
+            if (state is LoginScreenUiState.SMS) {
+                _uiState.update { state.copy(timeout = timeout) }
+            }
+        }.launchIn(viewModelScope)
+    }
+
     fun onNumberChange(number: String) {
         if (number.length <= 9)
             phoneNumber.value = number
@@ -98,7 +111,7 @@ class LoginScreenViewModel @Inject constructor(
         //sendPhoneNumber to server
         //if ok response -->
         _uiState.value = LoginScreenUiState.SMS(phoneNumber = phoneNumber.value)
-        // start sms request timeout
+        restartTimeout()
     }
 
     fun onSMSCodeChange(code: String) {
@@ -113,6 +126,16 @@ class LoginScreenViewModel @Inject constructor(
     fun onRequestNewSMSClick() {
         //TODO: end request to new sms
         smsCode.value = ""
-        // timeout.restart
+        restartTimeout()
+    }
+
+    private fun restartTimeout() {
+        viewModelScope.launch {
+            timeout.value = 60
+            while (timeout.value != 0) {
+                delay(1000)
+                timeout.value = timeout.value - 1
+            }
+        }
     }
 }
