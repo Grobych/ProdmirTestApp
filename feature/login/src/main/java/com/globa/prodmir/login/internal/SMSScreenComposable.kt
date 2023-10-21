@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -152,10 +151,16 @@ fun SMSScreenComposable(
                     Text(
                         text = stringResource(R.string.send_new_code),
                         color = MaterialTheme.colorScheme.primary,
-                        style = TextStyle(fontWeight = FontWeight.Medium),
-                        modifier = Modifier.clickable {
-                            onNewSmsRequestClick()
-                        }
+                        style = MaterialTheme.typography.bodyLarge.plus(
+                            SpanStyle(
+                                fontWeight = FontWeight.Medium
+                            )
+                        ),
+                        modifier = Modifier
+                            .clickable {
+                                onNewSmsRequestClick()
+                            }
+                            .padding(top = 16.dp)
                     )
                 }
             }
@@ -186,6 +191,23 @@ fun SMSScreenComposablePreview() {
                 phoneNumber = "447479953",
                 smsCode = "",
                 timeout = 58,
+                onSmsCodeChange = {},
+                onContinueButtonClick = {},
+                onNewSmsRequestClick = {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun SMSScreenComposableTimeoutExceedPreview() {
+    ProdmirTheme {
+        Surface {
+            SMSScreenComposable(
+                phoneNumber = "447479953",
+                smsCode = "",
+                timeout = 0,
                 onSmsCodeChange = {},
                 onContinueButtonClick = {},
                 onNewSmsRequestClick = {}

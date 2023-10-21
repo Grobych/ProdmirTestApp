@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.globa.prodmir.login.internal.PhoneNumberComposable
+import com.globa.prodmir.login.internal.SMSScreenComposable
 
 @Composable
 fun LoginScreen(
@@ -26,6 +27,15 @@ fun LoginScreen(
     val onAgreementRead = fun() {
         viewModel.onAgreementRead()
     }
+    val onSMSCodeChange = fun (code: String) {
+        viewModel.onSMSCodeChange(code)
+    }
+    val onSendSMSCodeButtonClick = fun() {
+        viewModel.onSendSMSCodeButtonClick()
+    }
+    val onRequestNewSMSClick = fun() {
+        viewModel.onRequestNewSMSClick()
+    }
 
     when(val state = uiState.value) {
         is LoginScreenUiState.PhoneNumber -> {
@@ -42,7 +52,16 @@ fun LoginScreen(
                 onAgreementRead = onAgreementRead
             )
         }
-        is LoginScreenUiState.SMS -> TODO()
+        is LoginScreenUiState.SMS -> {
+            SMSScreenComposable(
+                phoneNumber = state.phoneNumber,
+                smsCode = state.code,
+                timeout = state.timeout,
+                onSmsCodeChange = onSMSCodeChange,
+                onContinueButtonClick = onSendSMSCodeButtonClick,
+                onNewSmsRequestClick = onRequestNewSMSClick
+            )
+        }
         is LoginScreenUiState.Error -> TODO()
     }
 }

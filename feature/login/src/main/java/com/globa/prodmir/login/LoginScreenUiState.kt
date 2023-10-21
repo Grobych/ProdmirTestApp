@@ -15,5 +15,5 @@ sealed class LoginScreenUiState {
     data class SMS(
         val code: String = "",
         val phoneNumber: String,
-        val timeout: Int? = null): LoginScreenUiState()
+        val timeout: Int = 0): LoginScreenUiState()
 }

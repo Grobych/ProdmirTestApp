@@ -21,11 +21,14 @@ class LoginScreenViewModel @Inject constructor(
     private val showAgreement = MutableStateFlow(false)
     private val isAgreementRead = MutableStateFlow(false)
     private val isAgreementAccept = MutableStateFlow(false)
+
+    private val smsCode = MutableStateFlow("")
     init {
         phoneNumberInit()
         showAgreementInit()
         isAgreementReadInit()
         isAgreementAcceptInit()
+        smsCodeInit()
     }
     private fun phoneNumberInit() {
         //TODO: add input check??
@@ -64,6 +67,15 @@ class LoginScreenViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun smsCodeInit() {
+        smsCode.onEach { code ->
+            val state = uiState.value
+            if (state is LoginScreenUiState.SMS) {
+                _uiState.update { state.copy(code = code) }
+            }
+        }.launchIn(viewModelScope)
+    }
+
     fun onNumberChange(number: String) {
         if (number.length <= 9)
             phoneNumber.value = number
@@ -83,6 +95,24 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun sendPhoneNumber() {
-        TODO("Not yet implemented")
+        //sendPhoneNumber to server
+        //if ok response -->
+        _uiState.value = LoginScreenUiState.SMS(phoneNumber = phoneNumber.value)
+        // start sms request timeout
+    }
+
+    fun onSMSCodeChange(code: String) {
+        if (code.length <= 6) smsCode.value = code
+    }
+
+    fun onSendSMSCodeButtonClick() {
+        //TODO: send sms code to server
+        //if ok response --> NavController.AuthViewModel -> navigate to main
+    }
+
+    fun onRequestNewSMSClick() {
+        //TODO: end request to new sms
+        smsCode.value = ""
+        // timeout.restart
     }
 }
