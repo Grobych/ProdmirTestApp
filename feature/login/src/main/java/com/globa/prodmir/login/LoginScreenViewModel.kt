@@ -147,7 +147,7 @@ class LoginScreenViewModel @Inject constructor(
                 is LoginResponse.Error -> _uiState.value =
                     LoginScreenUiState.Error(code = response.code, message = response.message)
                 is LoginResponse.SMSChecked -> {
-                    val token = response.accessToken
+                    val token = response.refreshToken
                     tokenRepository.saveToken(token = token)
                     _uiState.value = LoginScreenUiState.Authorized
                 }
