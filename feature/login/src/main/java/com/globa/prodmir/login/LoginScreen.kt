@@ -1,14 +1,19 @@
 package com.globa.prodmir.login
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.globa.prodmir.login.internal.ErrorComposable
 import com.globa.prodmir.login.internal.PhoneNumberComposable
 import com.globa.prodmir.login.internal.SMSScreenComposable
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginScreenViewModel = hiltViewModel()
+    viewModel: LoginScreenViewModel = hiltViewModel(),
+    navigateToMain: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState()
 
@@ -62,6 +67,19 @@ fun LoginScreen(
                 onNewSmsRequestClick = onRequestNewSMSClick
             )
         }
-        is LoginScreenUiState.Error -> TODO()
+        is LoginScreenUiState.Error -> {
+            ErrorComposable(
+                message = state.message,
+                onReturnButtonClick = {viewModel.onErrorReturnButtonClick()}
+            )
+        }
+        LoginScreenUiState.Authorized -> {
+            navigateToMain()
+        }
+        LoginScreenUiState.Loading -> {
+            CircularProgressIndicator(
+                modifier = Modifier.fillMaxSize()
+            )
+        }
     }
 }

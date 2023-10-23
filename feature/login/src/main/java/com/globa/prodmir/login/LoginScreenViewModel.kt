@@ -1,7 +1,11 @@
 package com.globa.prodmir.login
 
+import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.globa.prodmir.data.login.api.LoginRepository
+import com.globa.prodmir.data.login.api.TokenRepository
+import com.globa.prodmir.data.login.api.model.LoginResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
-
+    private val loginRepository: LoginRepository,
+    private val tokenRepository: TokenRepository
 ): ViewModel() {
     private val _uiState = MutableStateFlow<LoginScreenUiState>(LoginScreenUiState.PhoneNumber())
     val uiState = _uiState.asStateFlow()
@@ -108,10 +113,23 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun sendPhoneNumber() {
-        //sendPhoneNumber to server
-        //if ok response -->
-        _uiState.value = LoginScreenUiState.SMS(phoneNumber = phoneNumber.value)
-        restartTimeout()
+        viewModelScope.launch {
+            _uiState.value = LoginScreenUiState.Loading
+            val response = loginRepository.login(
+                phoneNumber = "375"+phoneNumber.value,
+                deviceModel = Build.MODEL
+            )
+            when (response) {
+                is LoginResponse.Error -> _uiState.value =
+                    LoginScreenUiState.Error(code = response.code, message = response.message)
+                is LoginResponse.SMSChecked ->
+                    LoginScreenUiState.Error(code = 500, message = "code 202 is found, but expected code 201")
+                is LoginResponse.SMSSend -> {
+                    _uiState.value = LoginScreenUiState.SMS(phoneNumber = phoneNumber.value)
+                    restartTimeout()
+                }
+            }
+        }
     }
 
     fun onSMSCodeChange(code: String) {
@@ -119,14 +137,42 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun onSendSMSCodeButtonClick() {
-        //TODO: send sms code to server
-        //if ok response --> NavController.AuthViewModel -> navigate to main
+        viewModelScope.launch {
+            val response = loginRepository.login(
+                phoneNumber = "375"+phoneNumber.value,
+                deviceModel = Build.MODEL,
+                code = smsCode.value.toInt()
+            )
+            when (response) {
+                is LoginResponse.Error -> _uiState.value =
+                    LoginScreenUiState.Error(code = response.code, message = response.message)
+                is LoginResponse.SMSChecked -> {
+                    val token = response.accessToken
+                    tokenRepository.saveToken(token = token)
+                    _uiState.value = LoginScreenUiState.Authorized
+                }
+                is LoginResponse.SMSSend ->
+                    LoginScreenUiState.Error(code = 501, message = "code 201 is found, but expected code 202")
+            }
+        }
     }
 
     fun onRequestNewSMSClick() {
-        //TODO: end request to new sms
-        smsCode.value = ""
-        restartTimeout()
+        viewModelScope.launch {
+            val response = loginRepository.login(
+                phoneNumber = "375"+phoneNumber.value,
+                deviceModel = Build.MODEL
+            )
+            when (response) {
+                is LoginResponse.Error -> _uiState.value =
+                    LoginScreenUiState.Error(code = response.code, message = response.message)
+                is LoginResponse.SMSChecked -> {}
+                is LoginResponse.SMSSend -> {
+                    smsCode.value = ""
+                    restartTimeout()
+                }
+            }
+        }
     }
 
     private fun restartTimeout() {
@@ -137,5 +183,9 @@ class LoginScreenViewModel @Inject constructor(
                 timeout.value = timeout.value - 1
             }
         }
+    }
+
+    fun onErrorReturnButtonClick() {
+        TODO("Not yet implemented")
     }
 }

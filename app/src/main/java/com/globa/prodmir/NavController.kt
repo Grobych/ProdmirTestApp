@@ -12,11 +12,16 @@ fun NavController(
     startDestination: NavRoutes
 ) {
     val navController = rememberNavController()
+    val navigateToMain = fun() {
+        navController.navigate(route = NavRoutes.Main.name)
+    }
     NavHost(navController = navController, startDestination = startDestination.name) {
         composable(
             route = NavRoutes.Login.name
         ) {
-            LoginScreen()
+            LoginScreen(
+                navigateToMain = navigateToMain
+            )
         }
         composable(
             route = NavRoutes.Main.name
