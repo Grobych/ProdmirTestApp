@@ -1,4 +1,4 @@
-package com.globa.prodmir.data.login.internal
+package com.globa.prodmir.data.login.api.model
 
 import com.google.gson.annotations.SerializedName
 

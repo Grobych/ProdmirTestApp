@@ -1,15 +1,16 @@
-package com.globa.prodmir.data.login.internal
+package com.globa.prodmir.data.login.internal.login
 
 import com.globa.prodmir.common.di.IoDispatcher
+import com.globa.prodmir.data.login.api.model.LoginResponse
+import com.globa.prodmir.data.login.api.model.LogoutResponse
 import com.globa.prodmir.network.api.LoginApi
 import com.globa.prodmir.network.api.model.LoginRequest
-import com.globa.prodmir.network.api.model.Token
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class LoginNetworkDataSource @Inject constructor(
+internal class LoginNetworkDataSource @Inject constructor(
     private val api: LoginApi,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) {
@@ -26,7 +27,10 @@ class LoginNetworkDataSource @Inject constructor(
         when (response.code()) {
             201 -> Gson().fromJson(response.body().toString(), LoginResponse.SMSSend::class.java)
             202 -> Gson().fromJson(response.body().toString(), LoginResponse.SMSChecked::class.java)
-            206 -> LoginResponse.Error(code = response.code(), message = "Phone number has not been registered!")
+            206 -> LoginResponse.Error(
+                code = response.code(),
+                message = "Phone number has not been registered!"
+            )
             207 -> LoginResponse.Error(code = response.code(), message = "Unauthorized device!")
             else -> Gson().fromJson(response.body().toString(), LoginResponse.Error::class.java)
         }
@@ -39,16 +43,6 @@ class LoginNetworkDataSource @Inject constructor(
             403 -> LogoutResponse.AlreadyLogout
             404 -> LogoutResponse.UserNotFound
             else -> LogoutResponse.UserNotFound //???
-        }
-    }
-
-    suspend fun validate(token: String): VerifyingResponse = withContext(dispatcher) {
-        val response = api.validateToken(Token(token = token))
-        when (response.code()) {
-            200 -> Gson().fromJson(response.body().toString(), VerifyingResponse.Valid::class.java)
-            204 -> Gson().fromJson(response.body().toString(), VerifyingResponse.UserNotFound::class.java)
-            403 -> Gson().fromJson(response.body().toString(), VerifyingResponse.InValid::class.java)
-            else -> VerifyingResponse.Error
         }
     }
 }
