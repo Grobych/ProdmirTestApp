@@ -55,6 +55,7 @@ dependencies {
     implementation(project(path = ":common"))
     implementation(project(path = ":feature:login"))
     implementation(project(path = ":feature:main"))
+    implementation(project(path = ":data:login"))
 
     implementation(libs.hilt.core)
     kapt(libs.hilt.compiler)
