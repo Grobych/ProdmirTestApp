@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal class NetworkModule {
-    private val baseUrl = "http://178.124.177.15:26577/devmobileapi"
+    private val baseUrl = "http://178.124.177.15:26577/devmobileapi/"
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit = Retrofit
