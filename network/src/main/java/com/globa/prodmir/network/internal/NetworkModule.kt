@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
+internal class NetworkModule {
     private val baseUrl = "http://178.124.177.15:26577/devmobileapi"
     @Provides
     @Singleton
