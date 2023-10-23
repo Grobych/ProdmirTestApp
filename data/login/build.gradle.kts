@@ -34,6 +34,9 @@ android {
 }
 
 dependencies {
+    implementation(project(path = ":network"))
+    implementation(project(path = ":common"))
+
     implementation(libs.hilt.core)
     kapt(libs.hilt.compiler)
 
