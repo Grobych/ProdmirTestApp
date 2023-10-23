@@ -9,7 +9,8 @@ import com.globa.prodmir.main.MainScreen
 
 @Composable
 fun NavController(
-    startDestination: NavRoutes
+    startDestination: NavRoutes,
+    closeApp: () -> Unit
 ) {
     val navController = rememberNavController()
     val navigateToMain = fun() {
@@ -30,7 +31,8 @@ fun NavController(
             route = NavRoutes.Main.name
         ) {
             MainScreen(
-                navigateToLogin = navigateToLogin
+                navigateToLogin = navigateToLogin,
+                closeApp = closeApp
             )
         }
     }

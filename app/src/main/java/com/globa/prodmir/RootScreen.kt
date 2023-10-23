@@ -6,12 +6,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun RootScreen(
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel(),
+    closeApp: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState()
     when (uiState.value) {
         AuthUiState.Loading -> {} //TODO: add animation
-        AuthUiState.Authorized -> NavController(startDestination = NavRoutes.Main)
-        AuthUiState.NotAuthorized -> NavController(startDestination = NavRoutes.Login)
+        AuthUiState.Authorized -> NavController(startDestination = NavRoutes.Main, closeApp = closeApp)
+        AuthUiState.NotAuthorized -> NavController(startDestination = NavRoutes.Login, closeApp = closeApp)
     }
 }
