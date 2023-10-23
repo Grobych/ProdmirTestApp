@@ -10,9 +10,11 @@ sealed class LoginResponse {
     data class SMSSend(
         @SerializedName("status") val code: Int,
         @SerializedName("phone") val phoneNumber: String,
-        @SerializedName("id") val id: Int,
+        @SerializedName("id") val id: String,
         @SerializedName("checkAttempt") val checkAttempt: Int,
-        @SerializedName("updatedAt") val updatedAt: Long
+        @SerializedName("updatedAt") val updatedAt: Long,
+        @SerializedName("device") val device: String?,
+        @SerializedName("message") val message: String?
     ): LoginResponse()
     data class SMSChecked(
         @SerializedName("status") val code: Int,

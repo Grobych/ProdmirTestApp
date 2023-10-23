@@ -23,21 +23,26 @@ internal class LoginNetworkDataSource @Inject constructor(
             phoneNumber = phoneNumber,
             deviceModel = phoneModel,
             smsCode = code
-        ))
-        when (response.code()) {
-            201 -> Gson().fromJson(response.body().toString(), LoginResponse.SMSSend::class.java)
-            202 -> Gson().fromJson(response.body().toString(), LoginResponse.SMSChecked::class.java)
-            206 -> LoginResponse.Error(
-                code = response.code(),
-                message = "Phone number has not been registered!"
-            )
-            207 -> LoginResponse.Error(code = response.code(), message = "Unauthorized device!")
-            else -> Gson().fromJson(response.body().toString(), LoginResponse.Error::class.java)
+        )).execute()
+        if (response.isSuccessful) {
+            val bodyJson = response.body()?.asJsonObject
+            when (bodyJson?.get("status")?.asInt) {
+                201 -> Gson().fromJson(bodyJson.toString(), LoginResponse.SMSSend::class.java)
+                202 -> Gson().fromJson(bodyJson.toString(), LoginResponse.SMSChecked::class.java)
+                206 -> LoginResponse.Error(
+                    code = response.code(),
+                    message = "Phone number has not been registered!"
+                )
+                207 -> LoginResponse.Error(code = response.code(), message = "Unauthorized device!")
+                else -> Gson().fromJson(bodyJson.toString(), LoginResponse.Error::class.java)
+            }
+        } else {
+            Gson().fromJson(response.errorBody().toString(), LoginResponse.Error::class.java)
         }
     }
 
     suspend fun logout() = withContext(dispatcher) {
-        val response = api.logout()
+        val response = api.logout().execute()
         when (response.code()) {
             204 -> LogoutResponse.LogoutSuccess
             403 -> LogoutResponse.AlreadyLogout

@@ -14,7 +14,7 @@ internal class NetworkTokenValidator @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) {
     suspend fun validate(token: String): ValidateResponse = withContext(dispatcher) {
-        val response = api.validateToken(Token(token = token))
+        val response = api.validateToken(Token(token = token)).execute()
         when (response.code()) {
             200 -> Gson().fromJson(response.body().toString(), ValidateResponse.Valid::class.java)
             204 -> Gson().fromJson(response.body().toString(), ValidateResponse.UserNotFound::class.java)
