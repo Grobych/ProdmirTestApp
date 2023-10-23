@@ -43,6 +43,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.gson)
 
+    implementation(libs.datastore.preferences)
+    implementation(libs.datastore.preferences.core)
+
     testImplementation(libs.junit)
     testImplementation(libs.coroutines.test)
 }

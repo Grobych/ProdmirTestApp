@@ -1,24 +1,24 @@
-package com.globa.prodmir.data.login.internal
+package com.globa.prodmir.data.login.api.model
 
 import com.google.gson.annotations.SerializedName
 
-sealed class VerifyingResponse{
+sealed class ValidateResponse{
     data class Valid(
         @SerializedName("status") val code: Int,
         @SerializedName("message") val message: String,
         @SerializedName("userId") val userId: String,
         @SerializedName("phone") val phoneNumber: String
-    ): VerifyingResponse()
-    data class InValid(
+    ): ValidateResponse()
+    data class Outdated(
         @SerializedName("status") val code: Int,
         @SerializedName("error") val message: String,
         @SerializedName("userId") val userId: String,
         @SerializedName("phone") val phoneNumber: String
-    ): VerifyingResponse()
+    ): ValidateResponse()
     data class UserNotFound(
         @SerializedName("status") val code: Int,
         @SerializedName("error") val message: String,
         @SerializedName("userId") val userId: String?,
-    ): VerifyingResponse()
-    object Error: VerifyingResponse()
+    ): ValidateResponse()
+    object Error: ValidateResponse()
 }
