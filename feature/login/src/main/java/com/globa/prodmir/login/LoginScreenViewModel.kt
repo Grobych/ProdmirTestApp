@@ -31,6 +31,9 @@ class LoginScreenViewModel @Inject constructor(
 
     private val smsCode = MutableStateFlow("")
     private val timeout = MutableStateFlow(60)
+
+    private var lastState: LoginScreenUiState? = null
+
     init {
         phoneNumberInit()
         showAgreementInit()
@@ -114,6 +117,7 @@ class LoginScreenViewModel @Inject constructor(
 
     fun sendPhoneNumber() {
         viewModelScope.launch {
+            lastState = uiState.value
             _uiState.value = LoginScreenUiState.Loading
             val response = loginRepository.login(
                 phoneNumber = "375"+phoneNumber.value,
@@ -138,6 +142,7 @@ class LoginScreenViewModel @Inject constructor(
 
     fun onSendSMSCodeButtonClick() {
         viewModelScope.launch {
+            lastState = uiState.value
             val response = loginRepository.login(
                 phoneNumber = "375"+phoneNumber.value,
                 deviceModel = Build.MODEL,
@@ -185,7 +190,9 @@ class LoginScreenViewModel @Inject constructor(
         }
     }
 
-    fun onErrorReturnButtonClick() {
-        TODO("Not yet implemented")
+    fun onBackButtonClick() {
+        lastState?.let {
+            _uiState.value = it
+        }
     }
 }

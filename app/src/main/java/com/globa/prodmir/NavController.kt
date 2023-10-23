@@ -24,7 +24,8 @@ fun NavController(
             route = NavRoutes.Login.name
         ) {
             LoginScreen(
-                navigateToMain = navigateToMain
+                navigateToMain = navigateToMain,
+                closeApp = closeApp
             )
         }
         composable(

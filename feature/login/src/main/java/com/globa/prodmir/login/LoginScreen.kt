@@ -19,7 +19,8 @@ import com.globa.prodmir.login.internal.SMSScreenComposable
 fun LoginScreen(
     modifier: Modifier = Modifier,
     viewModel: LoginScreenViewModel = hiltViewModel(),
-    navigateToMain: () -> Unit
+    navigateToMain: () -> Unit,
+    closeApp: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState()
 
@@ -48,7 +49,8 @@ fun LoginScreen(
         viewModel.onRequestNewSMSClick()
     }
     val onBackButtonClick = fun() {
-
+        if (uiState.value is LoginScreenUiState.PhoneNumber) closeApp()
+        else viewModel.onBackButtonClick()
     }
 
     Scaffold(
@@ -91,7 +93,7 @@ fun LoginScreen(
                     ErrorComposable(
                         modifier = Modifier.padding(it),
                         message = state.message,
-                        onReturnButtonClick = {viewModel.onErrorReturnButtonClick()}
+                        onReturnButtonClick = {viewModel.onBackButtonClick()}
                     )
                 }
                 LoginScreenUiState.Authorized -> {
