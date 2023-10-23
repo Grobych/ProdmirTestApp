@@ -41,6 +41,8 @@ android {
 }
 
 dependencies {
+    implementation(project(path = ":data:login"))
+    implementation(project(path = ":common"))
 
     implementation (libs.lifecycle.viewmodel)
     val composeBom = platform(libs.androidx.compose.bom)

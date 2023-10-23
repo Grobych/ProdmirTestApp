@@ -15,6 +15,9 @@ fun NavController(
     val navigateToMain = fun() {
         navController.navigate(route = NavRoutes.Main.name)
     }
+    val navigateToLogin = fun() {
+        navController.navigate(route = NavRoutes.Login.name)
+    }
     NavHost(navController = navController, startDestination = startDestination.name) {
         composable(
             route = NavRoutes.Login.name
@@ -26,7 +29,9 @@ fun NavController(
         composable(
             route = NavRoutes.Main.name
         ) {
-            MainScreen()
+            MainScreen(
+                navigateToLogin = navigateToLogin
+            )
         }
     }
 }
