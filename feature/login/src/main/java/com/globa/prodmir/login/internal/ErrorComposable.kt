@@ -1,10 +1,12 @@
 package com.globa.prodmir.login.internal
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,14 +24,22 @@ internal fun ErrorComposable(
     message: String,
     onReturnButtonClick: () -> Unit
 ) {
-    Column(
+    Box(
         modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceAround,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
-        Text(text = message)
-        Button(onClick = {onReturnButtonClick()}) {
+        Text(
+            text = message,
+            modifier = Modifier.align(Alignment.Center)
+        )
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
+            onClick = {onReturnButtonClick()},
+            shape = MaterialTheme.shapes.small
+        ) {
             Text(text = stringResource(R.string.return_text))
         }
     }
