@@ -178,7 +178,7 @@ fun PhoneNumberComposable(
             ) {
                 Text(
                     text = stringResource(R.string.continue_text),
-                    style = MaterialTheme.typography.titleSmall // TODO: check styles
+                    style = MaterialTheme.typography.titleSmall
                 )
             }
         }

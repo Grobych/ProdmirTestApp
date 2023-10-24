@@ -44,7 +44,6 @@ class LoginScreenViewModel @Inject constructor(
         timeoutInit()
     }
     private fun phoneNumberInit() {
-        //TODO: add input check??
         phoneNumber.onEach { number ->
             val state = uiState.value
             if (state is LoginScreenUiState.PhoneNumber) {
