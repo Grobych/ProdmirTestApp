@@ -123,7 +123,9 @@ fun PhoneNumberComposable(
                 )
             )
             Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -137,13 +139,14 @@ fun PhoneNumberComposable(
                 )
                 val tintColor = MaterialTheme.colorScheme.primary
                 val baseColor = MaterialTheme.colorScheme.secondary
+                val dataString = stringResource(R.string.personal_data)
                 val text = buildAnnotatedString {
                     withStyle(
                         style = SpanStyle(
                             color = baseColor
                         )
                     ) {
-                        append("I agree to the processing of ")
+                        append(stringResource(R.string.agree_of))
                     }
                     withAnnotation("tag", "annotation") {
                         withStyle(
@@ -152,7 +155,7 @@ fun PhoneNumberComposable(
                                 color = tintColor
                             )
                         ) {
-                            append("personal data")
+                            append(dataString)
                         }
                     }
                 }

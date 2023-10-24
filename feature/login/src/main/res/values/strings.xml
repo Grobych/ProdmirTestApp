@@ -10,4 +10,6 @@
     <string name="send_to_the_number">"Send to the number: "</string>
     <string name="send_new_code">Send new code</string>
     <string name="personal_data_toast">You should read Personal Data Agreement first.</string>
+    <string name="agree_of">"I agree to the processing of "</string>
+    <string name="personal_data">personal data</string>
 </resources>

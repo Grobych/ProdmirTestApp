@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="return_text">Назад</string>
+    <string name="type_phone_number">Введите номер телефона:</string>
+    <string name="accept">Принять</string>
+    <string name="continue_text">Продолжить</string>
+    <string name="sms_code">Код из СМС:</string>
+    <string name="sms_timeout_1">"Отправить новый код можно будет через "</string>
+    <string name="sms_timeout_2">секунд.</string>
+    <string name="send_to_the_number">Отправили на номер:</string>
+    <string name="send_new_code">Отправить новый код</string>
+    <string name="personal_data_toast">Вы должны сначала прочитать соглашение о пользовательских данных</string>
+    <string name="agree_of">"Я согласен с обработкой "</string>
+    <string name="personal_data">персональных данных</string>
+</resources>
