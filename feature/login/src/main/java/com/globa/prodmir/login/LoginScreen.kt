@@ -110,6 +110,7 @@ fun LoginScreen(
                         )
                     }
                 }
+                LoginScreenUiState.Exit -> { closeApp() }
             }
         }
     )

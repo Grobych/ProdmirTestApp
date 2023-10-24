@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Stack
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +33,7 @@ class LoginScreenViewModel @Inject constructor(
     private val smsCode = MutableStateFlow("")
     private val timeout = MutableStateFlow(60)
 
-    private var lastState: LoginScreenUiState? = null
+    private var lastState = Stack<LoginScreenUiState>()
 
     init {
         phoneNumberInit()
@@ -117,7 +118,7 @@ class LoginScreenViewModel @Inject constructor(
 
     fun sendPhoneNumber() {
         viewModelScope.launch {
-            lastState = uiState.value
+            lastState.push(uiState.value)
             _uiState.value = LoginScreenUiState.Loading
             val response = loginRepository.login(
                 phoneNumber = "375"+phoneNumber.value,
@@ -142,7 +143,7 @@ class LoginScreenViewModel @Inject constructor(
 
     fun onSendSMSCodeButtonClick() {
         viewModelScope.launch {
-            lastState = uiState.value
+            lastState.push(uiState.value)
             val response = loginRepository.login(
                 phoneNumber = "375"+phoneNumber.value,
                 deviceModel = Build.MODEL,
@@ -191,8 +192,10 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun onBackButtonClick() {
-        lastState?.let {
-            _uiState.value = it
+        if (lastState.isNotEmpty()) {
+            _uiState.value = lastState.pop()
+        } else {
+            _uiState.value = LoginScreenUiState.Exit
         }
     }
 }

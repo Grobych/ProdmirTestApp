@@ -3,6 +3,7 @@ package com.globa.prodmir.login
 sealed class LoginScreenUiState {
     object Loading: LoginScreenUiState()
     object Authorized: LoginScreenUiState()
+    object Exit: LoginScreenUiState()
     data class Error(
         val code: Int,
         val message: String
