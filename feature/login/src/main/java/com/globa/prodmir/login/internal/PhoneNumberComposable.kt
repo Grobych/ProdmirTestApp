@@ -138,7 +138,7 @@ fun PhoneNumberComposable(
                     }
                 )
                 val tintColor = MaterialTheme.colorScheme.primary
-                val baseColor = MaterialTheme.colorScheme.secondary
+                val baseColor = MaterialTheme.colorScheme.surfaceVariant
                 val dataString = stringResource(R.string.personal_data)
                 val text = buildAnnotatedString {
                     withStyle(

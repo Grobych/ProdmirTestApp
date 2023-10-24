@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.globa.prodmir.common.composable.Header
 import com.globa.prodmir.login.internal.ErrorComposable
@@ -57,7 +58,7 @@ fun LoginScreen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             Header(
-                text = "Login",
+                text = stringResource(R.string.login),
                 onBackButtonClick = onBackButtonClick
             )
         },

@@ -33,7 +33,7 @@ fun CustomSwitchButton(
                                  else painterResource(id = R.drawable.ic_switch_dis),
             contentDescription = "Switch",
             tint = if (isEnabled) MaterialTheme.colorScheme.primary
-                             else MaterialTheme.colorScheme.secondary
+                             else MaterialTheme.colorScheme.surfaceVariant
         )
     }
 

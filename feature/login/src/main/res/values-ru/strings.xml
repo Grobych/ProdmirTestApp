@@ -12,4 +12,5 @@
     <string name="personal_data_toast">Вы должны сначала прочитать соглашение о пользовательских данных</string>
     <string name="agree_of">"Я согласен с обработкой "</string>
     <string name="personal_data">персональных данных</string>
+    <string name="login">Вход</string>
 </resources>
