@@ -1,6 +1,7 @@
 package com.globa.prodmir.login.internal
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -35,6 +36,7 @@ import androidx.compose.ui.text.withAnnotation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.globa.prodmir.common.composable.CustomSwitchButton
 import com.globa.prodmir.common.theme.ProdmirTheme
 import com.globa.prodmir.login.R
 
@@ -57,6 +59,11 @@ fun PhoneNumberComposable(
         AgreementDialog(
             onRead = onAgreementRead
         )
+    }
+    val context = LocalContext.current
+    val personalDataString = stringResource(R.string.personal_data_toast)
+    val showToast = fun() {
+        Toast.makeText(context, personalDataString, Toast.LENGTH_LONG).show()
     }
     Column(
         modifier = modifier
@@ -116,20 +123,20 @@ fun PhoneNumberComposable(
                 )
             )
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                //TODO: use custom implementation???
-                Checkbox(
-                    checked = isAgreementAccepted,
-                    onCheckedChange = {
-                        onAgreementCheckButtonClick(it)
-                    },
-                    enabled = isAgreementRead
+                CustomSwitchButton(
+                    isEnabled = isAgreementRead,
+                    isSelected = isAgreementAccepted,
+                    onSelectChange = { onAgreementCheckButtonClick(it) },
+                    onDisabledClick = {
+                        showToast()
+                    }
                 )
                 val tintColor = MaterialTheme.colorScheme.primary
-                val baseColor = MaterialTheme.colorScheme.surfaceVariant
+                val baseColor = MaterialTheme.colorScheme.secondary
                 val text = buildAnnotatedString {
                     withStyle(
                         style = SpanStyle(

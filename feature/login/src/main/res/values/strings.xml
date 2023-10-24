@@ -9,4 +9,5 @@
     <string name="sms_timeout_2">" seconds to send a new code "</string>
     <string name="send_to_the_number">"Send to the number: "</string>
     <string name="send_new_code">Send new code</string>
+    <string name="personal_data_toast">You should read Personal Data Agreement first.</string>
 </resources>
