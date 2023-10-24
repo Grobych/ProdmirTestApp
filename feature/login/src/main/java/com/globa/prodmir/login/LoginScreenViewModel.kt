@@ -82,8 +82,14 @@ class LoginScreenViewModel @Inject constructor(
     private fun smsCodeInit() {
         smsCode.onEach { code ->
             val state = uiState.value
+            val isSMSError = code.matches(Regex("[0-9]+")).not() && code.isNotEmpty()
             if (state is LoginScreenUiState.SMS) {
-                _uiState.update { state.copy(code = code) }
+                _uiState.update {
+                    state.copy(
+                        code = code,
+                        isSMSError = isSMSError
+                    )
+                }
             }
         }.launchIn(viewModelScope)
     }
@@ -137,7 +143,9 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun onSMSCodeChange(code: String) {
-        if (code.length <= 6) smsCode.value = code
+        if (code.length <= 6) {
+            smsCode.value = code
+        }
     }
 
     fun onSendSMSCodeButtonClick() {

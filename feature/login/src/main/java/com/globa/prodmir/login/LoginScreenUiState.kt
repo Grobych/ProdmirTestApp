@@ -17,6 +17,7 @@ sealed class LoginScreenUiState {
     ): LoginScreenUiState() //input error
     data class SMS(
         val code: String = "",
+        val isSMSError: Boolean = false,
         val phoneNumber: String,
         val timeout: Int = 60): LoginScreenUiState()
 }

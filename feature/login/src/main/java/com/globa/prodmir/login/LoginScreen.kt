@@ -84,6 +84,7 @@ fun LoginScreen(
                         modifier = Modifier.padding(it),
                         phoneNumber = state.phoneNumber,
                         smsCode = state.code,
+                        isSMSError = state.isSMSError,
                         timeout = state.timeout,
                         onSmsCodeChange = onSMSCodeChange,
                         onContinueButtonClick = onSendSMSCodeButtonClick,

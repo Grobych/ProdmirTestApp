@@ -38,6 +38,7 @@ fun SMSScreenComposable(
     modifier: Modifier = Modifier,
     phoneNumber: String,
     smsCode: String,
+    isSMSError: Boolean,
     timeout: Int,
     onSmsCodeChange: (String) -> Unit,
     onContinueButtonClick: () -> Unit,
@@ -95,7 +96,8 @@ fun SMSScreenComposable(
                     visualTransformation = PhoneVisualTransformation(
                         mask = "00-00-00",
                         maskNumber = '0'
-                    )
+                    ),
+                    isError = isSMSError
                 )
                 Text(
                     text = buildAnnotatedString {
@@ -171,7 +173,8 @@ fun SMSScreenComposable(
             Button(
                 onClick = { onContinueButtonClick() },
                 modifier = Modifier.fillMaxWidth(),
-                shape = MaterialTheme.shapes.small
+                shape = MaterialTheme.shapes.small,
+                enabled = isSMSError.not()
             ) {
                 Text(
                     text = stringResource(R.string.continue_text),
@@ -190,6 +193,7 @@ fun SMSScreenComposablePreview() {
             SMSScreenComposable(
                 phoneNumber = "447479953",
                 smsCode = "",
+                isSMSError = false,
                 timeout = 58,
                 onSmsCodeChange = {},
                 onContinueButtonClick = {},
@@ -207,6 +211,7 @@ fun SMSScreenComposableTimeoutExceedPreview() {
             SMSScreenComposable(
                 phoneNumber = "447479953",
                 smsCode = "",
+                isSMSError = false,
                 timeout = 0,
                 onSmsCodeChange = {},
                 onContinueButtonClick = {},
